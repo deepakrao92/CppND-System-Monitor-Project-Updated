@@ -11,7 +11,7 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-// DONE: An example of how to read data from the filesystem
+// An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
   string line;
   string key;
@@ -34,7 +34,7 @@ string LinuxParser::OperatingSystem() {
   return value;
 }
 
-// DONE: An example of how to read data from the filesystem
+// An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
   string os, kernel, version;
   string line;
@@ -98,17 +98,19 @@ long LinuxParser::UpTime() {
   return std::stol(upTime);
 }
 
-// TODO: Read and return the number of jiffies for the system (Not Implemented)
+/*
+// Read and return the number of jiffies for the system (Not Implemented)
 long LinuxParser::Jiffies() { return 0; }
 
-// TODO: Read and return the number of active jiffies for a PID (Not Implemented)
+// Read and return the number of active jiffies for a PID (Not Implemented)
 long LinuxParser::ActiveJiffies(int pid) { return 0; }
 
-// TODO: Read and return the number of active jiffies for the system (Not Implemented)
+// Read and return the number of active jiffies for the system (Not Implemented)
 long LinuxParser::ActiveJiffies() { return 0; }
 
-// TODO: Read and return the number of idle jiffies for the system (Not Implemented)
+// Read and return the number of idle jiffies for the system (Not Implemented)
 long LinuxParser::IdleJiffies() { return 0; }
+*/
 
 // Read and return CPU utilization of a process
 float LinuxParser::CpuUtilization(int pid) {
@@ -125,17 +127,18 @@ float LinuxParser::CpuUtilization(int pid) {
       }
   }
 
-  float utime = std::stof(proc_stat[13]);
+  float utime = LinuxParser::UpTime(pid)*1.0f;
   float stime = std::stof(proc_stat[14]);
   float cutime = std::stof(proc_stat[15]);
   float cstime = std::stof(proc_stat[16]);
   float starttime = std::stof(proc_stat[21]);
-  long hertz = sysconf(_SC_CLK_TCK);
+  float uptime = LinuxParser::UpTime()*1.0f;
+  float hertz = sysconf(_SC_CLK_TCK);
 
   float total_time = utime + stime + cutime + cstime;
 
-  float seconds = LinuxParser::UpTime() - (starttime / hertz);
-  float cpu_usage = 100*(total_time / hertz) / seconds;
+  float seconds = uptime - (starttime / hertz);
+  float cpu_usage = 100.0f * ((total_time / hertz) / seconds);
 
   return cpu_usage;
 }

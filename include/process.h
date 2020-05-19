@@ -5,7 +5,7 @@
 /*
 Basic class for Process representation
 It contains relevant attributes as shown below
-*/
+ */
 class Process {
  public:
   Process(int pid);
@@ -17,7 +17,7 @@ class Process {
   long int UpTime();                       
   bool operator<(Process const& a) const;  
 
-  // TODO: Declare any necessary private members
+  // Declare any necessary private members
  private:
     int pid_{0};
     std::string command_{};

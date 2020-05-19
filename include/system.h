@@ -7,6 +7,10 @@
 #include "process.h"
 #include "processor.h"
 
+/** @brief System Class for accesing system related information
+ *  @author Deepak Rao
+ *  @date May 2020
+ */
 class System {
  public:
   Processor& Cpu();                   
